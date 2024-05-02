@@ -1,0 +1,16 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity xnorGate is
+ port( x,y :in std_logic;
+       z: out std_logic);
+end xnorGate;
+
+architecture data_nand of xorGate is
+ begin
+	z<= (x and y) or (not x and not y);
+
+ end data_nand;
+
+
+

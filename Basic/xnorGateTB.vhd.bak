@@ -1,0 +1,63 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity xnorGateTB is
+end xnorGateTB;
+
+architecture testbench of xnorGateTB is
+   -- Declare signals for testbench
+   signal x_tb, y_tb, z_tb : std_logic := '0';
+   
+   -- Component declaration for the AND gate
+   component xnorGate
+      port( x, y : in std_logic;
+            z : out std_logic);
+   end component;
+
+begin
+   -- Instantiate the AND gate
+   dut: xnorGate port map (x_tb, y_tb, z_tb);
+
+   -- Stimulus process
+   stimulus_process: process
+   begin
+      -- Test case 1: x='0', y='0'
+      x_tb <= '0';
+      y_tb <= '0';
+      wait for 10 ns;
+
+      -- Test case 2: x='0', y='1'
+      x_tb <= '0';
+      y_tb <= '1';
+      wait for 10 ns;
+
+      -- Test case 3: x='1', y='0'
+      x_tb <= '1';
+      y_tb <= '0';
+      wait for 10 ns;
+
+      -- Test case 4: x='1', y='1'
+      x_tb <= '1';
+      y_tb <= '1';
+      wait for 10 ns;
+
+      -- Add more test cases as needed
+
+      -- End simulation
+      wait;
+   end process stimulus_process;
+
+end testbench;
+
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity xorGate is
+ port( x,y :in std_logic;
+       z: out std_logic);
+end xorGate;
+
+architecture data_nand of xorGate is
+ begin
+	z<= x xnor y;
+ end data_nand;

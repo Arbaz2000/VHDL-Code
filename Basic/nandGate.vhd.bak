@@ -1,0 +1,13 @@
+
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity nandGate is
+ port( x,y :in std_logic;
+       z: out std_logic);
+end nandGate;
+
+architecture data_nand of nandGate is
+ begin
+	z<= x nor y;
+ end data_nand;

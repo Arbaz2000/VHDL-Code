@@ -1,0 +1,13 @@
+
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity norGate is
+ port( x,y :in std_logic;
+       z: out std_logic);
+end norGate;
+
+architecture data_nor of norGate is
+ begin
+	z<= x or y;
+ end data_nor;
