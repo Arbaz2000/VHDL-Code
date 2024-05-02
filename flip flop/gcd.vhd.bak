@@ -1,0 +1,91 @@
+library IEEE;
+use IEEE.std_logic_1164.all;
+
+entity gcd is
+  Port (
+    clk : in  std_logic;
+    reset : in  std_logic;
+    a : in  (3 downto 0);
+    b : in  (3 downto 0);
+    gcd_out : out (3 downto 0)
+  );
+end entity gcd;
+
+architecture Behavioral of gcd is
+  type state_type is (idle, compare_a_b, subtract_a_b, subtract_b_a, check_done);
+  signal current_state, next_state : state_type;
+  signal reg_a, reg_b, temp : unsigned(3 downto 0);
+begin
+
+  /* State Register */
+  process(clk)
+  begin
+    if rising_edge(clk) then
+      if reset = '1' then
+        current_state <= idle;
+      else
+        current_state <= next_state;
+      end if;
+    end if;
+  end process;
+
+  /* Datapath */
+  process(current_state, a, b)
+  begin
+    case current_state is
+      when idle =>
+        reg_a <= a;
+        reg_b <= b;
+      when compare_a_b =>
+        if reg_a >= reg_b then
+          temp <= reg_a;
+        else
+          temp <= reg_b;
+        end if;
+      when subtract_a_b =>
+        reg_a <= reg_a - reg_b;
+      when subtract_b_a =>
+        reg_b <= reg_b - temp;
+      when check_done =>
+        if reg_a = 0 then
+          gcd_out <= reg_b;
+        else
+          reg_a <= temp;
+        end if;
+    end case;
+  end process;
+
+  /* Next State Logic */
+  next_state <= current_state;
+  with state_process : process(current_state, reg_a, reg_b)
+  begin
+    case current_state is
+      when idle =>
+        next_state <= compare_a_b;
+      when compare_a_b =>
+        if reg_a = reg_b then
+          next_state <= check_done;
+        elsif reg_a > reg_b then
+          next_state <= subtract_a_b;
+        else
+          next_state <= subtract_b_a;
+        end if;
+      when subtract_a_b =>
+        if reg_a = 0 then
+          next_state <= check_done;
+        else
+          next_state <= subtract_a_b;
+        end if;
+      when subtract_b_a =>
+        if reg_b = 0 then
+          next_state <= check_done;
+        else
+          next_state <= subtract_b_a;
+        end if;
+      when check_done =>
+        next_state <= idle;
+    end case;
+  end process state_process;
+
+end architecture Behavioral;
+
