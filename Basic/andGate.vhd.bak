@@ -1,0 +1,12 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity andGate is
+ port( x,y :in std_logic;
+       z: out std_logic);
+end andGate;
+
+architecture data_nand of andGate is
+ begin
+	z<= x and y;
+ end data_nand;
