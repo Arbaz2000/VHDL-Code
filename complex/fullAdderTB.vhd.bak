@@ -1,0 +1,71 @@
+library IEEE;
+use IEEE.std_logic_1164.all;
+
+entity fullAdder is
+end entity;
+
+architecture tb of fullAdderTB is
+component fullAdder is
+port(a,b,cin : IN std_logic;
+HA_sum, HA_carry, FA_sum, FA_carry : OUT std_logic);
+end component;
+
+signal a, b, cin, HA_sum, HA_carry, FA_sum, FA_carry : std_logic;
+
+begin
+
+dut: fullAdder port map(
+a => a, b => b,
+cin => cin,
+HA_sum => HA_sum,
+HA_carry => HA_carry,
+FA_sum => FA_sum,
+FA_carry => FA_carry);
+
+stim: process
+begin
+
+a <= '0';
+b <= '0';
+cin <= '0';
+wait for 10 ns;
+
+a <= '0';
+b <= '0';
+cin <= '1';
+wait for 10 ns;
+
+a <= '0';
+b <= '1';
+cin <= '0';
+wait for 10 ns;
+
+a <= '0';
+b <= '1';
+cin <= '1';
+wait for 10 ns;
+
+a <= '1';
+b <= '0';
+cin <= '0';
+wait for 10 ns;
+
+a <= '1';
+b <= '0';
+cin <= '1';
+wait for 10 ns;
+
+a <= '1';
+b <= '1';
+cin <= '0';
+wait for 10 ns;
+
+a <= '1';
+b <= '1';
+cin <= '1';
+wait for 10 ns;
+wait;
+
+end process;
+
+end tb;

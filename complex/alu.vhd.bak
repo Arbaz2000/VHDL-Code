@@ -1,0 +1,34 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity alu is
+    port(
+        A, B : in std_logic_vector(3 downto 0);
+        op   : in std_logic_vector(2 downto 0);
+        Y    : out std_logic_vector(3 downto 0)
+    );
+end entity alu;
+
+architecture behavioral of alu is
+begin
+    process(A, B, op)
+    begin
+        case op is
+            when "000" =>
+                Y <= A + B; -- Addition
+            when "001" =>
+                Y <= A - B; -- Subtraction
+            when "010" =>
+                Y <= A and B; -- Bitwise AND
+            when "011" =>
+                Y <= A or B; -- Bitwise OR
+            when "100" =>
+                Y <= A xor B; -- Bitwise XOR
+            when "101" =>
+                Y <= not A; -- Bitwise NOT
+            when others =>
+                Y <= (others => '0'); -- Default case (zero output)
+        end case;
+    end process;
+end architecture behavioral;
+

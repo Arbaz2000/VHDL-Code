@@ -1,0 +1,45 @@
+
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.std_logic_arith.all;
+use ieee.std_logic_unsigned.all;
+
+entity comparatortb is
+end comparatortb;
+
+architecture testbench of comparatortb is
+    component comparator 
+        port (
+            inp_A, inp_B   : in std_logic_vector(3 downto 0);
+            greater, equal, smaller  : out std_logic
+        );
+    end component;
+
+    signal inp_A_tb, inp_B_tb       : std_logic_vector(3 downto 0);
+    signal greater_tb, equal_tb, smaller_tb : std_logic;
+begin
+    uut : comparator 
+        port map (
+            inp_A => inp_A_tb,
+            inp_B => inp_B_tb,
+            greater => greater_tb,
+            equal => equal_tb,
+            smaller => smaller_tb
+        );
+
+    stimulus : process
+    begin
+        -- Test cases
+        inp_A_tb <= "0000"; inp_B_tb <= "0000"; wait for 10 ns;
+        inp_A_tb <= "0001"; inp_B_tb <= "0000"; wait for 10 ns;
+        inp_A_tb <= "0000"; inp_B_tb <= "0001"; wait for 10 ns;
+        inp_A_tb <= "0001"; inp_B_tb <= "0001"; wait for 10 ns;
+        inp_A_tb <= "0010"; inp_B_tb <= "0001"; wait for 10 ns;
+        inp_A_tb <= "0010"; inp_B_tb <= "0010"; wait for 10 ns;
+        inp_A_tb <= "0011"; inp_B_tb <= "0100"; wait for 10 ns;
+        inp_A_tb <= "0111"; inp_B_tb <= "0110"; wait for 10 ns;
+        inp_A_tb <= "1111"; inp_B_tb <= "1110"; wait for 10 ns;
+        inp_A_tb <= "1111"; inp_B_tb <= "1111"; wait for 10 ns;
+        wait;
+    end process;
+end testbench;
