@@ -1,0 +1,19 @@
+
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.NUMERIC_STD.ALL;
+
+entity Adder is
+    Port (
+        A : in unsigned(3 downto 0); -- First input
+        B : in unsigned(3 downto 0); -- Second input
+        Sum : out unsigned(3 downto 0); -- Sum output
+        Carry : out std_logic -- Carry output
+    );
+end Adder;
+
+architecture Behavioral of Adder is
+begin
+    Sum <= A + B;
+    Carry <= '1' when A + B > 15 else '0'; -- Carry is '1' if the sum is greater than 15 (2^4 - 1)
+end Behavioral;

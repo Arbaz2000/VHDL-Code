@@ -1,0 +1,43 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.NUMERIC_STD.ALL;
+
+entity Divider_tb is
+end Divider_tb;
+
+architecture Behavioral of Divider_tb is
+    signal A : unsigned(3 downto 0);
+    signal B : unsigned(3 downto 0);
+    signal Quotient : unsigned(3 downto 0);
+    signal Remainder : unsigned(3 downto 0);
+begin
+    -- Instantiate the Divider module
+    UUT: entity work.Divider
+        port map (
+            A => A,
+            B => B,
+            Quotient => Quotient,
+            Remainder => Remainder
+        );
+
+    -- Testbench stimulus process
+    stim_proc: process
+    begin
+        -- Test 1: 10 / 2
+        A <= "1010"; -- 10 in binary
+        B <= "0010"; -- 2 in binary
+        wait for 10 ns;
+        assert Quotient = "0101" and Remainder = "0000" report "Test 1 failed" severity error;
+
+        -- Test 2: 15 / 3
+        A <= "1111"; -- 15 in binary
+        B <= "0011"; -- 3 in binary
+        wait for 10 ns;
+        assert Quotient = "0101" and Remainder = "0001" report "Test 2 failed" severity error;
+
+        -- End the simulation
+        assert false report "Simulation finished" severity note;
+        wait;
+    end process;
+end Behavioral;
+
